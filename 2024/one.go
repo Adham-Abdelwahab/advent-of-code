@@ -1021,8 +1021,8 @@ func one() {
 	}
 	sort.Float64s(lefts)
 	sort.Float64s(rights)
-	f.Printf("%f\n", distances(lefts, rights))
-	f.Println(similarity(lefts, rights))
+	f.Printf("1) %f\n", distances(lefts, rights))
+	f.Printf("1) %d\n", similarity(lefts, rights))
 }
 
 /* Part 1 */

@@ -1012,8 +1012,8 @@ func two() {
 	for _, line := range lines {
 		reports = append(reports, s.Split(line, " "))
 	}
-	f.Println(process_two(reports))
-	f.Println(process_with_retry(reports))
+	f.Printf("2) %d\n", process_two(reports))
+	f.Printf("2) %d\n", process_with_retry(reports))
 }
 
 func process_two(reports [][]string) int {

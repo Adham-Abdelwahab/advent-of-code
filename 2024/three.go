@@ -19,17 +19,22 @@ from()<#from()[@>?$(mul(631,608),+mul(946,420),( (^[^+/{mul(569,409),what()who()
 !>mul(851,461)+!where()$!{@!:)mul(93,494):!mul(951,143)+>)why()-{from()what()mul(988,791)mul(931,510)(:where(245,25){'mul(117,354)'what(); [[<don't()what())]:~#who()+mul(225,504%{]who();why()where()@<$<mul(639,292)&(from(),^ mul(104,198)&~ don't();&&[*when()?mul(181,83){why();>@how()select()do()when()?:from()mul(778,261):,+,mul(314,222);<?;who()what(){+mul(816,477)why()from()'where()^+<mul(199,340){-select()&mul(950,14){how()who()<don't()$}%mul(101,370)mul(615,41)how()>,^what(190,985)select() ?<mul(116,361)!@>*,[who()+:-mul(796,495)~/>do()<,}who()^mul(187,492)>'*$!what()mul(991,172)^&}:-mul(458,567)?mul(883,842)mul(755,150),!:%why()}mul(428,866)why()%why()where() (~:mul(352,708)what(370,596)$mul(898select()$why()~from()select()-when()mul(160,761)who(700,128)*mul(944,190)*#}^}from()where()mul(530,978):,+where()[?>mul(553,289)*$@/mul(286,141)what()@':~mulhow(116,291)%[mul(151,627)mul(362,891)~ %-<?;~mul(440,308)from()?<])mul(721,908)mul(45,682)*where(549,565)?~why()how()when()# mul(283,656)#!$when()~what()how()(mul(645,350),what()~^:select()-mul^<)what()what()do();$$when()mul(174,89)^mul(316,811)<~;:<select(619,564)mul(265,577)&why();why()where()&+ 'mul(365,604)?@&*,~what()$mul(568,621){+select():'[/select()mul(765,39!what())+mul(571,963)-:<+who()why()>/:%mul(275,35)@?&mul(276,797)who()/;who())why()when() ~)mul(400,219)where(757,508)}+'+>do()~?from()]~?why()${mul(674,313)]/!#select()^>how()&[do()mul(763,291)[?}><mul(424,631)#:]]mul(283,356)#/mul(999,277)[;;]mul(475,763)>$:;]/ @]mul(923,77)+:/,mul(974,68)}^<}*?(mul(573,391)?^mul(882,854)what()(from(){%!@+when()mul(263,665)'%/<[who(257,651)mul(131,306)#+[why()&,@{who()!mul(378,207)mul(830,423)how(180,743)[<$-)}-don't()mul(104,63)'$~+)/!(do()(?*when()/<:mul(184,312)-mul(457,714)?how()&where():!<(who()mul(832,385)?;&>select(),'[}-mul(409,111)<'who()who()}what(39,120)!<(@mul(466,625))from()'{:;what(),mul(833,127)$+!]mul(107,815)/ {what()what()mul(37,91)[-, what(812,83)?&mul(376,103)};-mul(640,727)select()[$-mul(64,181)mul(734,97)&@why()<#select()/?/mul(164,82)mul(786,473)@{'}mul(206,560)&~mul(784,62)@*^+what():!from()^[mul(206,626)what()[(,{where()from()why()?who()mul(533,212)#where()+how()']}where()((mul(301,424):what()#what()@ >'!do()@what()<what()when()'mul(89,449)select(871,600)+mul(438,837)-('mul(382,10)mul(547,112)mul(27,677)&]/<!#mul(141,36) where()select()$<why()!+mul(333,145)who()!)>mul(965,812)mul(3,550)from()who()!mul(965,728)#>#!)where()*)mul(497,530):when()#mul(352,808)!~{how()*!&mul(552,920)/where()+where()@-#/?mul(896,130)mul(347,579)~@ /^mul(727,709)#-how()&!&&@why()]mul(475,103)*how()/)~who()mul(542,160)mul(743,692)mul(561,997)why()mul(124,866)+}{why() mul(278,696)how()'what()$;?//where()when()mul(17,188)-+where()why();don't()--%<@why()+mul(356,107)%what()^,select()select(607,736):how()-mul(633,572)who()from()/;}select()mul(772,944)]@+/<]select()*?where()mul(858,850)(select()select()where()mul(181,712)~mul(979,178)#?}%?%do():who(268,689)*mul(941,59))-{&&(mul(296,702):@)where()don't()why()when(),mul(405,639)~$),who(575,232),%mul(671,828)`
 	split := s.Split(input, "mul(")
 
-	var total, add int
+	var total, toggleTotal, add int
 	enabled := true
+	for _, candidate := range split {
+		add, _ = process(candidate, true)
+		total += add
+	}
 	for _, candidate := range split {
 		if enabled {
 			add, enabled = process(candidate, enabled)
-			total += add
+			toggleTotal += add
 		} else {
 			_, enabled = process(candidate, enabled)
 		}
 	}
-	f.Println(total)
+	f.Printf("3) %d\n", total)
+	f.Printf("3) %d\n", toggleTotal)
 }
 
 func process(candidate string, enabled bool) (int, bool) {
