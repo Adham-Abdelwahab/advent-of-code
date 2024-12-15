@@ -1009,6 +1009,7 @@ func one() {
 57980   35192
 58451   71130
 81627   56209`
+
 	lines := strings.Split(string, "\n")
 	lefts := make([]float64, 0)
 	rights := make([]float64, 0)

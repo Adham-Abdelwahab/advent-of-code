@@ -1007,6 +1007,7 @@ func two() {
 74 75 78 81 84 87 88 91
 65 68 70 71 73
 60 63 66 68 71 74 76 79`
+
 	lines := s.Split(input, "\n")
 	reports := make([][]string, 0)
 	for _, line := range lines {
