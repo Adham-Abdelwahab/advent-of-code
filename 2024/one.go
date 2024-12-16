@@ -4,12 +4,12 @@ import (
 	f "fmt"
 	m "math"
 	"sort"
-	"strconv"
-	"strings"
+	sc "strconv"
+	s "strings"
 )
 
 func one() {
-	string := `68878   98732
+	input := `68878   98732
 24519   87903
 73275   70114
 87985   89419
@@ -1010,23 +1010,24 @@ func one() {
 58451   71130
 81627   56209`
 
-	lines := strings.Split(string, "\n")
+	lines := lines(input)
 	lefts := make([]float64, 0)
 	rights := make([]float64, 0)
+
 	for _, line := range lines {
-		tuple := strings.Split(line, "   ")
-		left, _ := strconv.ParseFloat(tuple[0], 64)
-		right, _ := strconv.ParseFloat(tuple[1], 64)
+		tuple := s.Split(line, "   ")
+		left, _ := sc.ParseFloat(tuple[0], 64)
+		right, _ := sc.ParseFloat(tuple[1], 64)
 		lefts = append(lefts, left)
 		rights = append(rights, right)
 	}
 	sort.Float64s(lefts)
 	sort.Float64s(rights)
+
 	f.Printf("1) %f\n", distances(lefts, rights))
 	f.Printf("1) %d\n", similarity(lefts, rights))
 }
 
-/* Part 1 */
 func distances(left []float64, right []float64) float64 {
 	distance := 0.0
 	for index := range left {
@@ -1035,7 +1036,6 @@ func distances(left []float64, right []float64) float64 {
 	return distance
 }
 
-/* Part 2 */
 func contains(element float64, list []float64) int {
 	count := 0
 	for _, value := range list {

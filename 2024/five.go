@@ -1373,8 +1373,8 @@ func five() {
 89,87,64,26,79,56,83`
 
 	splitInput := s.Split(input, "\n\n")
-	rules := s.Split(splitInput[0], "\n")
-	updates := s.Split(splitInput[1], "\n")
+	rules := lines(splitInput[0])
+	updates := lines(splitInput[1])
 
 	laws = make(map[string][]string)
 

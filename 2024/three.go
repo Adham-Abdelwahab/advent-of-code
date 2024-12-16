@@ -22,10 +22,12 @@ from()<#from()[@>?$(mul(631,608),+mul(946,420),( (^[^+/{mul(569,409),what()who()
 
 	var total, toggleTotal, add int
 	enabled := true
+
 	for _, candidate := range split {
 		add, _ = process(candidate, true)
 		total += add
 	}
+
 	for _, candidate := range split {
 		if enabled {
 			add, enabled = process(candidate, enabled)
@@ -34,6 +36,7 @@ from()<#from()[@>?$(mul(631,608),+mul(946,420),( (^[^+/{mul(569,409),what()who()
 			_, enabled = process(candidate, enabled)
 		}
 	}
+
 	f.Printf("3) %d\n", total)
 	f.Printf("3) %d\n", toggleTotal)
 }

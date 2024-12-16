@@ -2,7 +2,6 @@ package main
 
 import (
 	f "fmt"
-	s "strings"
 )
 
 var max_x int
@@ -150,7 +149,7 @@ MMXMSSMSXSXMAXMMXMASMMSAAAASAMXAAAAXXXMMSMASASAMXAASASMSMSXSMSAMMMAMMMAMAMASXMMM
 XSAMXMAAMSAMXMAAXMASAASMXMMMSMMSMSMSAASAASXMMXMASMMMASAAAXAAAMAMAXAAAMASXMASXAAXSAMXAAXMASASASXAMMMAAAXSMASXSAMXSMMAMAAAXAMSMSMMASAMXMAAAASM
 SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMMSAMMMSMSXMXSMMMXXXSMMMSXSMXXMXMMMXXAMSMSMXMXXXMSSSXSSSMMSSMA`
 
-	lines := s.Split(input, "\n")
+	lines := lines(input)
 
 	max_x = len(lines)
 	max_y = len(lines[0])
@@ -161,10 +160,9 @@ SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMM
 			if lines[i][j] == 'X' {
 				if ok, directions := findM(lines, i, j); ok {
 					for _, dir := range directions {
-						dir_x, dir_y := dir[0], dir[1]
-						x, y := 2*dir_x, 2*dir_y
+						x, y := 2*dir.x, 2*dir.y
 						if searchable(i, j, x, y) && lines[i+x][j+y] == 'A' {
-							x, y := 3*dir_x, 3*dir_y
+							x, y := 3*dir.x, 3*dir.y
 							if searchable(i, j, x, y) && lines[i+x][j+y] == 'S' {
 								total += 1
 							}
@@ -181,8 +179,8 @@ SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMM
 			if lines[i][j] == 'M' {
 				if ok, directions := findA(lines, i, j); ok {
 					for _, direction := range directions {
-						x := 2 * direction[0]
-						y := 2 * direction[1]
+						x := 2 * direction.x
+						y := 2 * direction.y
 						if searchable(i, j, x, y) && lines[i+x][j+y] == 'S' {
 							if lines[i+x][j] == 'S' && lines[i][j+y] == 'M' {
 								x_mases += 1
@@ -201,77 +199,77 @@ SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMM
 	f.Printf("4) %d\n", x_mases/2)
 }
 
-func findM(lines []string, i int, j int) (bool, [][]int) {
+func findM(lines []string, i int, j int) (bool, []point) {
 	gt0i := i > 0
 	ltmi := i < max_x-1
 	gt0j := j > 0
 	ltmj := j < max_y-1
 
-	directions := make([][]int, 0)
+	directions := make([]point, 0)
 
 	if ltmi {
 		if lines[i+1][j] == 'M' {
-			directions = append(directions, []int{1, 0})
+			directions = append(directions, point{1, 0})
 		}
 		if ltmj && lines[i+1][j+1] == 'M' {
-			directions = append(directions, []int{1, 1})
+			directions = append(directions, point{1, 1})
 		}
 		if gt0j && lines[i+1][j-1] == 'M' {
-			directions = append(directions, []int{1, -1})
+			directions = append(directions, point{1, -1})
 		}
 	}
 	if gt0i {
 		if lines[i-1][j] == 'M' {
-			directions = append(directions, []int{-1, 0})
+			directions = append(directions, point{-1, 0})
 		}
 		if ltmj && lines[i-1][j+1] == 'M' {
-			directions = append(directions, []int{-1, 1})
+			directions = append(directions, point{-1, 1})
 		}
 		if gt0j && lines[i-1][j-1] == 'M' {
-			directions = append(directions, []int{-1, -1})
+			directions = append(directions, point{-1, -1})
 		}
 	}
 	if gt0j && lines[i][j-1] == 'M' {
-		directions = append(directions, []int{0, -1})
+		directions = append(directions, point{0, -1})
 	}
 	if ltmj && lines[i][j+1] == 'M' {
-		directions = append(directions, []int{0, 1})
+		directions = append(directions, point{0, 1})
 	}
 
 	if len(directions) == 0 {
-		return false, [][]int{}
+		return false, []point{}
 	} else {
 		return true, directions
 	}
 }
 
-func findA(lines []string, i int, j int) (bool, [][]int) {
+func findA(lines []string, i int, j int) (bool, []point) {
 	gt0i := i > 0
 	ltmi := i < max_x-1
 	gt0j := j > 0
 	ltmj := j < max_y-1
 
-	directions := make([][]int, 0)
+	directions := make([]point, 0)
 
 	if gt0i {
 		if gt0j && lines[i-1][j-1] == 'A' {
-			directions = append(directions, []int{-1, -1})
+			directions = append(directions, point{-1, -1})
 		}
 		if ltmj && lines[i-1][j+1] == 'A' {
-			directions = append(directions, []int{-1, 1})
+			directions = append(directions, point{-1, 1})
 		}
 	}
 	if ltmi {
 		if gt0j && lines[i+1][j-1] == 'A' {
-			directions = append(directions, []int{1, -1})
+			directions = append(directions, point{1, -1})
 		}
 		if ltmj && lines[i+1][j+1] == 'A' {
-			directions = append(directions, []int{1, 1})
+			directions = append(directions, point{1, 1})
 		}
 	}
 
 	if len(directions) == 0 {
-		return false, [][]int{}
+		return false, []point{}
 	} else {
 		return true, directions
 	}

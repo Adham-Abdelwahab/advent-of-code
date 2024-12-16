@@ -6,4 +6,5 @@ func main() {
 	three()
 	four()
 	five()
+	six()
 }

@@ -1008,11 +1008,12 @@ func two() {
 65 68 70 71 73
 60 63 66 68 71 74 76 79`
 
-	lines := s.Split(input, "\n")
+	lines := lines(input)
 	reports := make([][]string, 0)
 	for _, line := range lines {
 		reports = append(reports, s.Split(line, " "))
 	}
+
 	f.Printf("2) %d\n", process_two(reports))
 	f.Printf("2) %d\n", process_with_retry(reports))
 }
