@@ -861,19 +861,36 @@ func seven() {
 	lines := s.Split(input, "\n")
 
 	var total int64
+	var caTibrate int64
+
 	for _, line := range lines {
 		equation := s.Split(line, ":")
 		value, _ := sc.ParseInt(equation[0], 0, 64)
 		raw_operands := s.Split(equation[1], " ")
 		initial, _ := sc.ParseInt(raw_operands[1], 0, 64)
-		if calibrate(initial, value, raw_operands[2:]) {
+
+		if old_calibrate(initial, value, raw_operands[2:]) {
 			total += value
+			caTibrate += value
+		} else if calibrate(initial, value, raw_operands[2:]) {
+			caTibrate += value
 		}
 	}
 
 	f.Printf("7) %v\n", total)
-	f.Printf("7) %v\n", total)
+	f.Printf("7) %v\n", caTibrate)
 
+}
+
+func old_calibrate(accumalator int64, value int64, operands []string) bool {
+	if len(operands) == 0 {
+		return accumalator == value
+	}
+	number, _ := sc.ParseInt(operands[0], 0, 64)
+
+	add := old_calibrate(accumalator+number, value, operands[1:])
+	mul := add || old_calibrate(accumalator*number, value, operands[1:])
+	return mul
 }
 
 func calibrate(accumalator int64, value int64, operands []string) bool {
