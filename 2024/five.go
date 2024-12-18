@@ -7,8 +7,6 @@ import (
 	s "strings"
 )
 
-var laws map[string][]string
-
 func five() {
 	input := `15|78
 65|46
@@ -1376,7 +1374,7 @@ func five() {
 	rules := lines(splitInput[0])
 	updates := lines(splitInput[1])
 
-	laws = make(map[string][]string)
+	laws := make(map[string][]string)
 
 	for _, law := range rules {
 		split := s.Split(law, "|")
@@ -1393,11 +1391,11 @@ func five() {
 	invalid := 0
 	for _, update := range updates {
 		check := s.Split(update, ",")
-		if valid(check) {
+		if valid(check, laws) {
 			add, _ := sc.ParseInt(check[int(len(check)/2)], 0, 32)
 			total += int(add)
 		} else {
-			invalid += fix(check)
+			invalid += fix(check, laws)
 		}
 	}
 
@@ -1405,7 +1403,7 @@ func five() {
 	f.Printf("5) %d\n", invalid)
 }
 
-func valid(update []string) bool {
+func valid(update []string, laws map[string][]string) bool {
 	visited := make(map[string]bool)
 	for _, number := range update {
 		if rules, ok := laws[number]; ok {
@@ -1420,7 +1418,7 @@ func valid(update []string) bool {
 	return true
 }
 
-func fix(update []string) int {
+func fix(update []string, laws map[string][]string) int {
 	fixed := make([]string, 0)
 	for _, number := range update {
 		if rules, ok := laws[number]; ok {

@@ -56,8 +56,7 @@ func eight() {
 ....................7.......1.....................`
 
 	lines := lines(input)
-	max_x = len(lines)
-	max_y = len(lines[0])
+	max = point{len(lines), len(lines[0])}
 
 	antennas := make(map[rune][]point)
 	for x, line := range lines {
@@ -84,10 +83,10 @@ func eight() {
 
 				p1 := point{start.x - dx, start.y - dy}
 				p2 := point{end.x + dx, end.y + dy}
-				if p1.x >= 0 && p1.x < max_x && p1.y >= 0 && p1.y < max_y {
+				if p1.x >= 0 && p1.x < max.x && p1.y >= 0 && p1.y < max.y {
 					antinodes[p1] = true
 				}
-				if p2.x >= 0 && p2.x < max_x && p2.y >= 0 && p2.y < max_y {
+				if p2.x >= 0 && p2.x < max.x && p2.y >= 0 && p2.y < max.y {
 					antinodes[p2] = true
 				}
 			}
@@ -104,12 +103,12 @@ func eight() {
 
 				for {
 					p1done := false
-					if p1.x >= 0 && p1.x < max_x && p1.y >= 0 && p1.y < max_y {
+					if p1.x >= 0 && p1.x < max.x && p1.y >= 0 && p1.y < max.y {
 						harmonic_antinodes[p1] = true
 					} else {
 						p1done = true
 					}
-					if p2.x >= 0 && p2.x < max_x && p2.y >= 0 && p2.y < max_y {
+					if p2.x >= 0 && p2.x < max.x && p2.y >= 0 && p2.y < max.y {
 						harmonic_antinodes[p2] = true
 					} else {
 						if p1done {

@@ -4,9 +4,6 @@ import (
 	f "fmt"
 )
 
-var max_x int
-var max_y int
-
 func four() {
 	input := `MSMMXMMAMXMAMSAMXMXXMMASAXAXAMXSXMASMXASXAXXMASMSXSAMXSMXMMXMMSMMSSSMSSSSSMMASXMAXXMASAMXMSXAXSAMXSXAMXSAMMMXMSMXSXMAMASMSAMXMSXMXSXMASXMAMX
 ASAMXXAMAMXXMAMSMSMAXSAAMXMSMMAMXXMAXAXMXMMAXSMAXMMXMASAASXMXAAAXAAMAAAXAAXMASMMSAMXASAMSAMXXAXAXASMMAAAAXMMAMAAAXASAMMAMXSAMXSASASASASMSMMM
@@ -150,9 +147,7 @@ XSAMXMAAMSAMXMAAXMASAASMXMMMSMMSMSMSAASAASXMMXMASMMMASAAAXAAAMAMAXAAAMASXMASXAAX
 SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMMSAMMMSMSXMXSMMMXXXSMMMSXSMXXMXMMMXXAMSMSMXMXXXMSSSXSSSMMSSMA`
 
 	lines := lines(input)
-
-	max_x = len(lines)
-	max_y = len(lines[0])
+	max = point{len(lines), len(lines[0])}
 
 	total := 0
 	for i := range lines {
@@ -201,9 +196,9 @@ SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMM
 
 func findM(lines []string, i int, j int) (bool, []point) {
 	gt0i := i > 0
-	ltmi := i < max_x-1
+	ltmi := i < max.x-1
 	gt0j := j > 0
-	ltmj := j < max_y-1
+	ltmj := j < max.y-1
 
 	directions := make([]point, 0)
 
@@ -245,9 +240,9 @@ func findM(lines []string, i int, j int) (bool, []point) {
 
 func findA(lines []string, i int, j int) (bool, []point) {
 	gt0i := i > 0
-	ltmi := i < max_x-1
+	ltmi := i < max.x-1
 	gt0j := j > 0
-	ltmj := j < max_y-1
+	ltmj := j < max.y-1
 
 	directions := make([]point, 0)
 
@@ -278,5 +273,5 @@ func findA(lines []string, i int, j int) (bool, []point) {
 func searchable(i int, j int, dir_x int, dir_y int) bool {
 	dx := i + dir_x
 	dy := j + dir_y
-	return dx >= 0 && dy >= 0 && dx < max_x && dy < max_y
+	return dx >= 0 && dy >= 0 && dx < max.x && dy < max.y
 }

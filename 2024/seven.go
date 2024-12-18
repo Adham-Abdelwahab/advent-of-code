@@ -872,6 +872,8 @@ func seven() {
 	}
 
 	f.Printf("7) %v\n", total)
+	f.Printf("7) %v\n", total)
+
 }
 
 func calibrate(accumalator int64, value int64, operands []string) bool {

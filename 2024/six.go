@@ -139,14 +139,13 @@ func six() {
 .......................#...........#.......#......#.#...............................................#.................#.#.........`
 
 	lines := lines(input)
-	max_x = len(lines)
-	max_y = len(lines[0])
+	max = point{len(lines), len(lines[0])}
 
 	directions := map[rune]int{'^': 1, '>': 2, 'v': 3, '<': 4}
 	var direction int
 	var guard point
 
-	obstacles = make(map[point]bool)
+	obstacles := make(map[point]bool)
 	for x, line := range lines {
 		for y, c := range line {
 			if c == '#' {
@@ -159,11 +158,11 @@ func six() {
 		}
 	}
 
-	f.Printf("6) %d\n", visited(guard, direction))
-	f.Printf("6) %d\n", loops())
+	f.Printf("6) %d\n", visited(guard, direction, obstacles))
+	f.Printf("6) %d\n", loops(obstacles))
 }
 
-func visited(guard point, direction int) int {
+func visited(guard point, direction int, obstacles map[point]bool) int {
 	visit := make(map[point]bool)
 	visit[guard] = true
 	done := false
@@ -177,13 +176,13 @@ func visited(guard point, direction int) int {
 				done = true
 			}
 		case 2:
-			if guard.y+1 < max_y {
+			if guard.y+1 < max.y {
 				next.y = guard.y + 1
 			} else {
 				done = true
 			}
 		case 3:
-			if guard.x+1 < max_x {
+			if guard.x+1 < max.x {
 				next.x = guard.x + 1
 			} else {
 				done = true
@@ -215,7 +214,7 @@ func visited(guard point, direction int) int {
 	return len(visit)
 }
 
-func loops() int {
+func loops(obstacles map[point]bool) int {
 	visited := make(map[int]bool)
 	/*
 		A loop is possible if
