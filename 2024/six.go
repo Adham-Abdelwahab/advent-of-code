@@ -4,7 +4,7 @@ import (
 	f "fmt"
 )
 
-var obstacles []point
+var obstacles map[point]bool
 
 func six() {
 	input := `......##...#...#....#.......#....................##............#.#..#.......#.........................................#...........
@@ -139,14 +139,14 @@ func six() {
 .......................#...........#.......#......#.#...............................................#.................#.#.........`
 
 	lines := lines(input)
-	max_x := len(lines)
-	max_y := len(lines[0])
+	max_x = len(lines)
+	max_y = len(lines[0])
 
 	directions := map[rune]int{'^': 1, '>': 2, 'v': 3, '<': 4}
 	var direction int
 	var guard point
 
-	obstacles := make(map[point]bool)
+	obstacles = make(map[point]bool)
 	for x, line := range lines {
 		for y, c := range line {
 			if c == '#' {
@@ -159,8 +159,13 @@ func six() {
 		}
 	}
 
-	visited := make(map[point]bool)
-	visited[guard] = true
+	f.Printf("6) %d\n", visited(guard, direction))
+	f.Printf("6) %d\n", loops())
+}
+
+func visited(guard point, direction int) int {
+	visit := make(map[point]bool)
+	visit[guard] = true
 	done := false
 	for {
 		var next point = guard
@@ -203,10 +208,72 @@ func six() {
 			}
 		} else {
 			guard = next
-			visited[guard] = true
+			visit[guard] = true
 		}
 	}
 
-	f.Printf("6) %d\n", len(visited))
+	return len(visit)
+}
 
+func loops() int {
+	visited := make(map[int]bool)
+	/*
+		A loop is possible if
+		1) obstacle
+		2) obstacle in the next direction = 1.x + 1, y > 1.y
+		3) obstacle in the next direction = x > 2.x, 2.y - 1
+		4) obstacle in the next direction = 3.x - 1, 1.y - 1
+
+		1) obstacle
+		2) obstacle in the next direction = 1.x + 1, y > 1.y
+		3) obstacle in the next direction = x > 2.x, 2.y - 1
+
+		1) obstacle
+		2) obstacle in the next direction = 1.x + 1, y > 1.y
+		4) obstacle in the next direction = x > 2.x, 1.y - 1
+
+		1) obstacle
+		3) obstacle in the next direction = x > 1.x + 1, y > 1.y
+		4) obstacle in the next direction = 3.x - 1, 1.y - 1
+	*/
+
+	for obstacle := range obstacles {
+		var first []point
+		var second []point
+
+		for compare := range obstacles {
+			if obstacle == compare {
+				continue
+			}
+			if compare.x == obstacle.x+1 && compare.y > obstacle.y {
+				first = append(first, compare)
+			}
+			if compare.x > obstacle.x+1 && compare.y > obstacle.y {
+				second = append(second, compare)
+			}
+		}
+		for compare := range obstacles {
+			if obstacle == compare {
+				continue
+			}
+			for _, firstset := range first {
+				if compare.x > firstset.x {
+					if compare.y == firstset.y-1 || compare.y == obstacle.y-1 {
+						visited[serial(obstacle, firstset, compare)] = true
+					}
+				}
+			}
+			for _, secondset := range second {
+				if compare.x == secondset.x-1 && compare.y == obstacle.y-1 {
+					visited[serial(obstacle, secondset, compare)] = true
+				}
+			}
+		}
+	}
+
+	return len(visited)
+}
+
+func serial(a point, b point, c point) int {
+	return a.x*a.y + b.x*b.y + c.x*c.y
 }

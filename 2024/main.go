@@ -7,4 +7,6 @@ func main() {
 	four()
 	five()
 	six()
+	seven()
+	eight()
 }
