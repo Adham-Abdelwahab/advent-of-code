@@ -147,7 +147,7 @@ XSAMXMAAMSAMXMAAXMASAASMXMMMSMMSMSMSAASAASXMMXMASMMMASAAAXAAAMAMAXAAAMASXMASXAAX
 SSMSAMXMASXMSSXMXSAMMMSXAXAXXXMAXXAXXSMSXSXXXXMASXSMXMMMSMMMXMASXSMSSSMSMMSSXSMMSAMMMSMSXMXSMMMXXXSMMMSXSMXXMXMMMXXAMSMSMXMXXXMSSSXSSSMMSSMA`
 
 	lines := lines(input)
-	max = point{len(lines), len(lines[0])}
+	max = point{len(lines), len(lines[0]), 0}
 
 	total := 0
 	for i := range lines {
@@ -204,31 +204,31 @@ func findM(lines []string, i int, j int) (bool, []point) {
 
 	if ltmi {
 		if lines[i+1][j] == 'M' {
-			directions = append(directions, point{1, 0})
+			directions = append(directions, point{1, 0, 0})
 		}
 		if ltmj && lines[i+1][j+1] == 'M' {
-			directions = append(directions, point{1, 1})
+			directions = append(directions, point{1, 1, 0})
 		}
 		if gt0j && lines[i+1][j-1] == 'M' {
-			directions = append(directions, point{1, -1})
+			directions = append(directions, point{1, -1, 0})
 		}
 	}
 	if gt0i {
 		if lines[i-1][j] == 'M' {
-			directions = append(directions, point{-1, 0})
+			directions = append(directions, point{-1, 0, 0})
 		}
 		if ltmj && lines[i-1][j+1] == 'M' {
-			directions = append(directions, point{-1, 1})
+			directions = append(directions, point{-1, 1, 0})
 		}
 		if gt0j && lines[i-1][j-1] == 'M' {
-			directions = append(directions, point{-1, -1})
+			directions = append(directions, point{-1, -1, 0})
 		}
 	}
 	if gt0j && lines[i][j-1] == 'M' {
-		directions = append(directions, point{0, -1})
+		directions = append(directions, point{0, -1, 0})
 	}
 	if ltmj && lines[i][j+1] == 'M' {
-		directions = append(directions, point{0, 1})
+		directions = append(directions, point{0, 1, 0})
 	}
 
 	if len(directions) == 0 {
@@ -248,18 +248,18 @@ func findA(lines []string, i int, j int) (bool, []point) {
 
 	if gt0i {
 		if gt0j && lines[i-1][j-1] == 'A' {
-			directions = append(directions, point{-1, -1})
+			directions = append(directions, point{-1, -1, 0})
 		}
 		if ltmj && lines[i-1][j+1] == 'A' {
-			directions = append(directions, point{-1, 1})
+			directions = append(directions, point{-1, 1, 0})
 		}
 	}
 	if ltmi {
 		if gt0j && lines[i+1][j-1] == 'A' {
-			directions = append(directions, point{1, -1})
+			directions = append(directions, point{1, -1, 0})
 		}
 		if ltmj && lines[i+1][j+1] == 'A' {
-			directions = append(directions, point{1, 1})
+			directions = append(directions, point{1, 1, 0})
 		}
 	}
 

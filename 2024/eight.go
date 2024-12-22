@@ -56,7 +56,7 @@ func eight() {
 ....................7.......1.....................`
 
 	lines := lines(input)
-	max = point{len(lines), len(lines[0])}
+	max = point{len(lines), len(lines[0]), 0}
 
 	antennas := make(map[rune][]point)
 	for x, line := range lines {
@@ -65,9 +65,9 @@ func eight() {
 				continue
 			}
 			if _, ok := antennas[c]; ok {
-				antennas[c] = append(antennas[c], point{x, y})
+				antennas[c] = append(antennas[c], point{x, y, 0})
 			} else {
-				antennas[c] = []point{{x, y}}
+				antennas[c] = []point{{x, y, 0}}
 			}
 		}
 	}
@@ -81,8 +81,8 @@ func eight() {
 				dy := end.y - start.y
 				dx := end.x - start.x
 
-				p1 := point{start.x - dx, start.y - dy}
-				p2 := point{end.x + dx, end.y + dy}
+				p1 := point{start.x - dx, start.y - dy, 0}
+				p2 := point{end.x + dx, end.y + dy, 0}
 				if p1.x >= 0 && p1.x < max.x && p1.y >= 0 && p1.y < max.y {
 					antinodes[p1] = true
 				}
@@ -116,8 +116,8 @@ func eight() {
 						}
 					}
 
-					p1 = point{p1.x - dx, p1.y - dy}
-					p2 = point{p2.x + dx, p2.y + dy}
+					p1 = point{p1.x - dx, p1.y - dy, 0}
+					p2 = point{p2.x + dx, p2.y + dy, 0}
 				}
 			}
 		}

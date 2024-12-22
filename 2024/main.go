@@ -9,4 +9,6 @@ func main() {
 	six()
 	seven()
 	eight()
+	nine()
+	ten()
 }

@@ -139,7 +139,7 @@ func six() {
 .......................#...........#.......#......#.#...............................................#.................#.#.........`
 
 	lines := lines(input)
-	max = point{len(lines), len(lines[0])}
+	max = point{len(lines), len(lines[0]), 0}
 
 	directions := map[rune]int{'^': 1, '>': 2, 'v': 3, '<': 4}
 	var direction int
@@ -149,7 +149,7 @@ func six() {
 	for x, line := range lines {
 		for y, c := range line {
 			if c == '#' {
-				obstacles[point{x, y}] = true
+				obstacles[point{x, y, 0}] = true
 			}
 			if dir, ok := directions[c]; ok {
 				guard.x, guard.y = x, y
